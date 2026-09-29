@@ -82,7 +82,7 @@ git init
 git add install_mtproxy.sh install_mtg_docker.sh install_official_mtproxy.sh install_python_mtprotoproxy.sh README.md
 git commit -m "Add MTProxy installation scripts"
 git branch -M main
-git remote add origin https://github.com/<пользователь>/<репозиторий>.git
+git remote add origin https://github.com/ordu1453/proxy-install.git
 git push -u origin main
 ```
 
@@ -94,16 +94,16 @@ git push -u origin main
 
 ```bash
 # mtg — вариант по умолчанию
-bash <(curl -fsSL https://raw.githubusercontent.com/<пользователь>/<репозиторий>/main/install_mtproxy.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/ordu1453/proxy-install/main/install_mtproxy.sh)
 
 # mtg в Docker-контейнере
-bash <(curl -fsSL https://raw.githubusercontent.com/<пользователь>/<репозиторий>/main/install_mtg_docker.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/ordu1453/proxy-install/main/install_mtg_docker.sh)
 
 # Официальная реализация Telegram (C)
-bash <(curl -fsSL https://raw.githubusercontent.com/<пользователь>/<репозиторий>/main/install_official_mtproxy.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/ordu1453/proxy-install/main/install_official_mtproxy.sh)
 
 # Python-реализация без компиляции
-bash <(curl -fsSL https://raw.githubusercontent.com/<пользователь>/<репозиторий>/main/install_python_mtprotoproxy.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/ordu1453/proxy-install/main/install_python_mtprotoproxy.sh)
 ```
 
 По завершении выполнения скрипт выводит в терминал:
@@ -135,7 +135,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/<пользователь>/<
 Пример запуска с нестандартным портом и доменом маскировки:
 
 ```bash
-MTG_PORT=8443 MTG_DOMAIN=www.microsoft.com bash <(curl -fsSL https://raw.githubusercontent.com/<пользователь>/<репозиторий>/main/install_mtproxy.sh)
+MTG_PORT=8443 MTG_DOMAIN=www.microsoft.com bash <(curl -fsSL https://raw.githubusercontent.com/ordu1453/proxy-install/main/install_mtproxy.sh)
 ```
 
 **Рекомендация по выбору домена маскировки (`*_DOMAIN`).** Следует
