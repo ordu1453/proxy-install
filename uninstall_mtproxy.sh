@@ -38,7 +38,7 @@ close_port() {
 }
 
 # 1. mtg — install_mtproxy.sh (binary + systemd)
-if systemctl list-unit-files 2>/dev/null | grep -q '^mtg\.service'; then
+if [[ -f /etc/systemd/system/mtg.service ]]; then
   echo "==> Removing mtg (binary/systemd) ..."
   PORT=$(grep -oE 'MTG_PORT=[0-9]+' /etc/mtg.env 2>/dev/null | cut -d= -f2)
   systemctl stop mtg >/dev/null 2>&1 || true
@@ -62,7 +62,7 @@ if command -v docker >/dev/null 2>&1 && docker ps -a --format '{{.Names}}' 2>/de
 fi
 
 # 3. install_official_mtproxy.sh (TelegramMessenger/MTProxy)
-if systemctl list-unit-files 2>/dev/null | grep -q '^mtproxy\.service'; then
+if [[ -f /etc/systemd/system/mtproxy.service ]]; then
   echo "==> Removing official MTProxy ..."
   PORT=$(systemctl cat mtproxy.service 2>/dev/null | grep -oE -- '-H [0-9]+' | awk '{print $2}')
   systemctl stop mtproxy mtproxy-update.timer mtproxy-update.service >/dev/null 2>&1 || true
@@ -78,7 +78,7 @@ if systemctl list-unit-files 2>/dev/null | grep -q '^mtproxy\.service'; then
 fi
 
 # 4. install_python_mtprotoproxy.sh (mtprotoproxy)
-if systemctl list-unit-files 2>/dev/null | grep -q '^mtprotoproxy\.service'; then
+if [[ -f /etc/systemd/system/mtprotoproxy.service ]]; then
   echo "==> Removing mtprotoproxy (Python) ..."
   PORT=$(grep -oE '^PORT = [0-9]+' /opt/mtprotoproxy/config.py 2>/dev/null | awk '{print $3}')
   systemctl stop mtprotoproxy >/dev/null 2>&1 || true
