@@ -37,6 +37,7 @@ Telegram и не требует установки дополнительног�
 | `install_mtg_docker.sh` | `mtg` в Docker-контейнере | Вариант для инфраструктуры на Docker |
 | `install_official_mtproxy.sh` | [Telegram MTProxy](https://github.com/TelegramMessenger/MTProxy) (C) | Официальная реализация от Telegram |
 | `install_python_mtprotoproxy.sh` | [`mtprotoproxy`](https://github.com/alexbers/mtprotoproxy) (Python) | Вариант без компиляции |
+| `uninstall_mtproxy.sh` | — | Удаление любого из установленных выше вариантов |
 | `README.md` | — | Настоящий документ |
 
 ## 4. Сравнение вариантов
@@ -106,6 +107,8 @@ bash <(curl -fsSL https://raw.githubusercontent.com/ordu1453/proxy-install/main/
 bash <(curl -fsSL https://raw.githubusercontent.com/ordu1453/proxy-install/main/install_python_mtprotoproxy.sh)
 ```
 
+Для удаления установленного прокси см. п. 6.4.
+
 По завершении выполнения скрипт выводит в терминал:
 
 - внешний IP-адрес сервера;
@@ -144,6 +147,33 @@ Telegram — трафик клиентов, не прошедших провер
 прозрачно перенаправлен на этот домен, что затрудняет
 идентификацию прокси при анализе трафика методом активного
 зондирования.
+
+### 6.4. Удаление
+
+Скрипт `uninstall_mtproxy.sh` удаляет с сервера установленный прокси —
+он самостоятельно определяет, какой из четырёх вариантов установлен
+(по наличию соответствующего systemd-сервиса или Docker-контейнера), и
+останавливает и удаляет сервис/контейнер, связанные файлы и
+конфигурацию, а также закрывает открытый для него порт в файрволе
+(ufw/firewalld). Скрипт идемпотентен: если какой-либо из вариантов не
+установлен, соответствующий шаг просто пропускается.
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/ordu1453/proxy-install/main/uninstall_mtproxy.sh)
+```
+
+Что удаляется для каждого варианта:
+
+| Вариант | Что снимается |
+|---|---|
+| `install_mtproxy.sh` (mtg) | сервис `mtg`, `/usr/local/bin/mtg`, `/etc/mtg.env`, `/etc/systemd/system/mtg.service` |
+| `install_mtg_docker.sh` (mtg в Docker) | контейнер `mtg` (сам Docker Engine не удаляется) |
+| `install_official_mtproxy.sh` | сервисы `mtproxy` и `mtproxy-update.timer`, каталог `/opt/MTProxy` |
+| `install_python_mtprotoproxy.sh` | сервис `mtprotoproxy`, каталог `/opt/mtprotoproxy` |
+
+Пакеты, установленные как зависимости (`build-essential`, `libssl-dev`,
+`python3`, Docker Engine и т.п.), скрипт не трогает — они являются
+обычными системными пакетами и их удаление не требуется.
 
 ## 7. Особенности отдельных вариантов
 
